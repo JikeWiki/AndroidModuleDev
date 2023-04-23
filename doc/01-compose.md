@@ -84,6 +84,22 @@ if (isRelease) {
 }
 ```
 
+同时在模块的`build.gradle`文件中的`android.defaultConfig`节点下，如果是APP类型，需要添加`applicationId`、`versionCode`、`versionName`，如下
+
+```groovy
+android {
+    namespace 'cn.jkdev.setting'
+
+    defaultConfig {
+        if (!isRelease) {
+            applicationId "cn.jkdev.setting"
+            versionCode 1
+            versionName "1.0"
+        }
+    }
+}
+```
+
 此时，如果我们把公共配置文件中的`isRelease`改为`true`，那么所有的子模块都将变成Library类型；如果我们把公共配置文件中的`isRelease`改为`false`，那么所有的模块都将变成APP类型。当子模块是Library类型时，他们将不会出现在构建与运行按钮上，也就是说，他们将不会被单独运行，只能作为其他模块的依赖。如下图
 
 ![20230423200256](img/20230423200256.png)
@@ -99,4 +115,48 @@ if (isRelease) {
 
 ### 3.2 创建主界面
 
-根据第二步，我们已经创建了三个模块，他们都是可以独立运行的APP，但是我们的应用还需要一个主界面，这个主界面需要包含`app-setting`和`app-video`两个模块的入口，这样才能实现应用的独立与组合。
+根据第二步，我们已经创建了三个模块，他们都是可以独立运行的APP，但是我们的应用还需要一个主界面，这个主界面需要包含`app-setting`和`app-video`两个模块的入口，这样才能实现应用的独立与组合。我们先在`activity_main.xml`中添加两个按钮，分别用于跳转到`app-setting`和`app-video`两个模块的入口，代码如下
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/bt_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="视频" />
+
+    <Button
+        android:id="@+id/bt_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="设置" />
+
+</LinearLayout>
+```
+
+然后页面在`MainActivity`设置点击事件，代码如下
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        findViewById<View>(R.id.bt_video).setOnClickListener {
+            startActivity(Intent(this, VideoActivity::class.java))
+        }
+        findViewById<View>(R.id.bt_setting).setOnClickListener {
+            startActivity(Intent(this, SettingActivity::class.java))
+        }
+    }
+}
+```
+
+我们需要把对应子模块的页面修改对应的文字，以便区分。
