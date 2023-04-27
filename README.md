@@ -20,3 +20,4 @@
 - [2.模块间调用](doc/02-module_mediator.md)
 - [3.第三方依赖管理](doc/03-dependency.md)
 - [4.模块共性配置](doc/04-common_config.md)
+- [5.资源文件命名规范](doc/05-resource_name.md)
