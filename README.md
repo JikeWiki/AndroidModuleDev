@@ -22,3 +22,4 @@
 - [4.模块共性配置](doc/04-common_config.md)
 - [5.资源文件命名规范](doc/05-resource_name.md)
 - [6.模块debug和relese源代码配置](doc/06-debug_release.md)
+- [7.模块初始化管理](doc/07-module_init.md)
